@@ -38,7 +38,7 @@ class Iterador {
 public:
     ListaDEnlazada(); //defecto
     ListaDEnlazada(const ListaDEnlazada<T> &l); //copia
-    ListaDEnlazada<T> &operator=(const VDinamico<T> &arr); //oeporador asoignacion
+    ListaDEnlazada<T> &operator=(const ListaDEnlazada<T> &arr); //oeporador asoignacion
 
     T& inicio(); //Obtenemos el nodo inicial
     T& final(); //Obtenemos el nodo final
@@ -231,8 +231,8 @@ void ListaD<T>::borrarInicio(){
      }
         delete borrado;
         tamanio--;
-    }
 }
+
 
 //La misma logica, hay que reajustar ahora la cola
 template<class T>
@@ -257,46 +257,70 @@ void ListaD<T>::borrarFinal(){
 
 //ahora tenemos un iterador apuntando a un elemento que vamos a borrar
 template<class T>
-void ListaD<T>::borrar(Iterador &p){
+void ListaD<T>::borrar(Iterador &p) {
     // Si el iterador es nulo o la lista está vacía, no hacemos nada
     if (p.nodo == 0 || cabecera == 0) {
         throw std::out_of_range("Error");
 
-    // Guardamos el puntero al nodo que vamos a borrar
-    Nodo<T> *aBorrar = p.nodo;
+        // Guardamos el puntero al nodo que vamos a borrar
+        Nodo<T> *aBorrar = p.nodo;
 
-    // Avanzamos el iterador al siguiente nodo ANTES de borrarlo
-    // para que no quede apuntando a memoria destruida
-    p.nodo = p.nodo->sig;
+        // Avanzamos el iterador al siguiente nodo ANTES de borrarlo
+        // para que no quede apuntando a memoria destruida
+        p.nodo = p.nodo->sig;
 
-    //Único elemento en la lista
-    if (cabecera == cola) {
+        //Único elemento en la lista
+        if (cabecera == cola) {
             cabecera = 0;
             cola = 0;
-     }
+        }
 
-     if (aBorrar == cabecera) {
-        borraInicio();
-    }
-    else if (aBorrar == cola) {
-        borraFinal();  // Ya gestiona cola, cabecera (si sólo había 1), delete y tama--
-    }
-    else{
-    // Caso intermedio
-        aBorrar->ant->sig = aBorrar->sig;
-        aBorrar->sig->ant = aBorrar->ant;
+        if (aBorrar == cabecera) {
+            borraInicio();
+        }
+        else if (aBorrar == cola) {
+            borraFinal();  // Ya gestiona cola, cabecera (si sólo había 1), delete y tama--
+        }
+        else{
+            // Caso intermedio
+            aBorrar->ant->sig = aBorrar->sig;
+            aBorrar->sig->ant = aBorrar->ant;
 
-        delete aBorrar;
-        tama--;
+            delete aBorrar;
+            tama--;
+        }
     }
-
 }
-
 template<class T>
 unsigned ListaD<T>::tam() {
     return tama;
 };
 
+template <class T>
+ListaD<T> ListaD<T>::concatena(const ListaD<T> &l) const {
+    ListaD<T> resultado; // Lista nueva donde guardamos la union
+
+    // Recorremos la lista actual *this usando un contador i
+    typename ListaD<T>::Iterador it1 = this->iterador();
+    for (unsigned int i = 0; i < tamanio; i++) {
+        resultado.insertarFinal(it1.dato());
+        it1.siguiente();
+    }
+
+    // Recorremos la lista pasada por parámetro l usando un contador i
+    typename ListaD<T>::Iterador it2 = l.iterador();
+    for (unsigned int i = 0; i < l.tamanio; i++) {
+        resultado.insertarFinal(it2.dato());
+        it2.siguiente();
+    }
+
+    return resultado;
+}
+
+template <class T>
+ListaD<T> ListaD<T>::operator+(const ListaD<T> &l) const {
+    return this->concatena(l); // Llama al método concatena directamente
+}
 //VAMOS APROVECHAR LA CREACION DEL MOTO BORRARINICIIO, para ir borrando nodos de las listas
 template <class T>
 ListaDEnlazada<T>::~ListaDEnlazada() {

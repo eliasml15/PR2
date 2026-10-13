@@ -24,9 +24,9 @@ public:
     void setNomParque(const std::string &nbre_parque);
 
 
-    void insertarEspecie(Especie *e);
-    bool existeNbreCom(const std::string &ncom);
-    bool existeNbreCie(const std::string &nciet);
+    void insertarEspecie(Especie *e); //metodo que sirve para insertar una especie en un parque, mediante esa relacion de asociacion
+    bool existeNbreCom(const std::string &ncom); //dado un nombre de una especie, indica si existe o no dentro del parque
+    bool existeNbreCie(const std::string &nciet); //nos dan un nombre cientifico y tenemos que ver si existe esa especie 
 };
 
 

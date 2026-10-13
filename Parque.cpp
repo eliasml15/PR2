@@ -5,25 +5,26 @@
 
 Parque::Parque():cod_parque(0),nbre_parque(""){}
 
-Parque::Parque(int cod_parque, std::string &nbre_parque):cod_parque(cod_parque),nbre_parque(nbre_parque),contains(){}
+Parque::Parque(int cod_parque, const std::string &nbre_parque):cod_parque(cod_parque),nbre_parque(nbre_parque),contains(){}
 
 Parque::Parque(const Parque &orig):cod_parque(orig.cod_parque),nbre_parque(orig.nbre_parque),contains(orig.contains) {
 }
 Parque::~Parque() {}
 
+
 void Parque::insertarEspecie(Especie *e) {
-    contains.insertar(e);
+    contains.insertar(e); //nos servimos del metodo que tiene especia
 }
 bool Parque::existeNbreCom(const std::string &ncom) {
-    for (int i=0;i<contains.tamlog();i++) {
-        if (ncom==contains[i]->getNCom()) {
+    for (unsigned int i=0;i<contains.tamlog();i++) { //recorremos el vector dinamico de tipo especies
+        if (ncom==contains[i]->getNCom()) { //hacemos la comprobacion
             return true;
         }
     }
     return false;
 }
 bool Parque::existeNbreCie(const std::string &nciet) {
-    for (int i=0;i<contains.tamlog();i++) {
+    for (unsigned int i=0;i<contains.tamlog();i++) {
         if (nciet==contains[i]->getNCi()) {
             return true;
         }

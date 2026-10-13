@@ -13,7 +13,7 @@ private:
 
 public:
     Parque();
-    Parque(int cod_parque,std::string &nbre_parque);
+    Parque(int cod_parque,const std::string &nbre_parque);
     Parque(const Parque &orig);
     ~Parque();
 
@@ -26,7 +26,7 @@ public:
 
     void insertarEspecie(Especie *e); //metodo que sirve para insertar una especie en un parque, mediante esa relacion de asociacion
     bool existeNbreCom(const std::string &ncom); //dado un nombre de una especie, indica si existe o no dentro del parque
-    bool existeNbreCie(const std::string &nciet); //nos dan un nombre cientifico y tenemos que ver si existe esa especie 
+    bool existeNbreCie(const std::string &nciet); //nos dan un nombre cientifico y tenemos que ver si existe esa especie
 };
 
 

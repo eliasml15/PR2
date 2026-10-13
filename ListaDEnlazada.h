@@ -1,9 +1,10 @@
 #ifndef PR1_LISTAENLAZADA_H
 #define PR1_LISTAENLAZADA_H
+#include <stdexcept>
+
 
 template <class T>
 class ListaDEnlazada {
-private:
     //Clase Nodo
     template<typename X>
 class Nodo {
@@ -20,10 +21,9 @@ class Nodo {
 
 public:
 //IMPLEMENTACION DE LA CLASE ITERADOR
-    template <typename I>
 class Iterador {
     public:
-        Nodo<I> *nodo;
+        Nodo<T> *nodo;
         //friend class ListaDEnlazada<I>; //hay que usar friend class pq esta fuera de ListaD<T>
         Iterador(Nodo<T> *aNodo) : nodo(aNodo) {}
         //añadido
@@ -45,20 +45,21 @@ public:
 
     unsigned tam(); //nos devolvera la cantidad de nodod
 
-    ListaDEnlazada<T>::Iterador iterador(); //con este metodo, podremos colocar un puntero a la primera direccion para poder recorrer todos los nodos
+    ListaDEnlazada<T>::Iterador iterador() const; //con este metodo, podremos colocar un puntero a la primera direccion para poder recorrer todos los nodos
+    ListaDEnlazada<T>::Iterador iteradorR() const;
 
-    void ionsertaInicio(const T& dato); //para insertar un nuevo nodo por el inicio
-    void insertaFin(const T& dato); //para insertar un nuevo nodo por el final
+    void insertarInicio(const T& dato); //para insertar un nuevo nodo por el inicio
+    void insertarFinal(const T& dato); //para insertar un nuevo nodo por el final
 
-    void inserta(Iterador &p,const T &dato); //para insertar en la posicion anterior a la que apunta p
+    void insertar(const Iterador &p,const T &dato); //para insertar en la posicion anterior a la que apunta p
 
-    void borraInicio(); //borra el elemento del innicio
-    void borraFinal(); //borra el elemento del final
+    void borrarInicio(); //borra el elemento del innicio
+    void borrarFinal(); //borra el elemento del final
 
-    void borra(Iterador &p);  //borrar cualquier elemento que nos diga un iterador
+    void borrar(Iterador &p);  //borrar cualquier elemento que nos diga un iterador
 
-    ListaDEnlazada<T> concaatena(const ListaDEnlazada<T> &l);
-    ListaDEnlazada<T> operator+(const ListD<T> &l); //necesario para el concatena
+    ListaDEnlazada<T> concatena(const ListaDEnlazada<T> &l) const;
+    ListaDEnlazada<T> operator+(const ListaDEnlazada<T> &l) const; //necesario para el concatena
 
     ~ListaDEnlazada(); //destructor
 };
@@ -84,7 +85,7 @@ ListaDEnlazada<T>::ListaDEnlazada(const ListaDEnlazada &origen):tamanio(0) {
         // Utilizando el método de nuestra clase insertaFin.
         // (Nota: se puede crear el nodo manualmente, pero usar insertaFin
         // nos evita rehacer la lógica de enganche de punteros ant y sig).
-        insertaFin(p->dato);
+        insertarFinal(p->dato);
 
         //Avanzamos al siguiente nodo de la lista origen 'l'
         p = p->sig;
@@ -94,18 +95,18 @@ ListaDEnlazada<T>::ListaDEnlazada(const ListaDEnlazada &origen):tamanio(0) {
 //Aqui recordamos que ya tenemos los dos objetos creados, entonces lo que tenemos qeu tener en cuetna es que tenemos que eliminar
 //los datos del nodo b en primer lugar.
 template <class T>
-ListaDEnlazada<T>& ListaDEnlazada<T>::operator=(const ListaDEnlazada<T> &l) {
+ListaDEnlazada<T>& ListaDEnlazada<T>::operator=(const ListaDEnlazada<T> &orig) {
     if (this!=&orig) {
 
         //vaciamos la lista hasta que cabecera sea nullptr
         while (cabecera != nullptr) {
-            borraInicio();
+            borrarInicio();
         }
 
         // Creamos un nuevo puntero que apuntará a la cabecera de la lista a copiar
         Nodo<T> *p = orig.cabecera;
         while (p != nullptr) {
-            insertaFin(p->dato);
+            insertarFinal(p->dato);
             p = p->sig;
         }
     }
@@ -117,14 +118,14 @@ ListaDEnlazada<T>& ListaDEnlazada<T>::operator=(const ListaDEnlazada<T> &l) {
 //Tenemos que tener un control de excepciones, por si la lista esta vacia
 //Se devuelve una refencia al dato guardado en el nodo
 template<class T>
-T& ListaD<T>::inicio(){
+T& ListaDEnlazada<T>::inicio(){
     if (cabecera==nullptr)
         throw std::logic_error("No existe valor inicial");
     return cabecera->dato; //Lanzamos el dato almacenado en el primer nodo apuntado por la cabecera
 };
 
 template<class T>
-T& ListaD<T>::fin(){
+T& ListaDEnlazada<T>::final(){
     if (cola==nullptr)
         throw std::logic_error("No existe valor final");
     return cola->dato; //Lanzamos el dato almacenado en el ultimo nodo apuntado por cola
@@ -133,12 +134,12 @@ T& ListaD<T>::fin(){
 //Con este metodo, conseguiremos un puntero que se colocara en el primer nodo de la lista
 //En caso de que la lista este vacia, nos devolvera un valor nulo
 template<class T>
-typename ListaD<T>::Iterador ListaD<T>::iterador() const {
+typename ListaDEnlazada<T>::Iterador ListaDEnlazada<T>::iterador() const {
     return Iterador (cabecera); //aqui le pasamos la adireccion del primer nodo al constructor de la clase iterador, para que este haga nodo=cabecera
 }
 
 template<class T>
-typename ListaD<T>::Iterador ListaD<T>::iteradorR() const {
+typename ListaDEnlazada<T>::Iterador ListaDEnlazada<T>::iteradorR() const {
     return Iterador (cola);
 }
 
@@ -148,7 +149,7 @@ typename ListaD<T>::Iterador ListaD<T>::iteradorR() const {
 //El puntero anterior del que antes era el primero, debe apuntar al nuevo nodo
 //Tenemso que capturar la excepcion de esta la lista vacia
 template <class T>
-    void ListaDEnlazada<T>::insertarInicio(T &dato){
+    void ListaDEnlazada<T>::insertarInicio(const T &dato ){
         Nodo<T> *nuevo=new Nodo<T>(dato,0,cabecera);  //Creamos un nuevo nodo, que nace directamente con la direccion del primer nodo (que pasara a ser el segundo) y nace con anterior=0.
 
       //Si la lista está vacía
@@ -168,7 +169,7 @@ template <class T>
 //Procedimiento similar
 //Tenemos que enganchar siguiente del ultimo al nuevo nodo. El anterior del nuevo ya nace con la direccion del anterior nodo.
 template <class T>
-    void ListaDEnlazada<T>::insertarFinal(T &dato) {
+    void ListaDEnlazada<T>::insertarFinal(const T &dato) {
         Nodo<T> *nuevo=new Nodo<T>(dato,cola,0); //Este nuevo nodo, tendra el dato, anterior=cola, siguiente=0
 
         //Si la lista esta vacia
@@ -185,27 +186,23 @@ template <class T>
 
 //En este nuevo metodo, tenemos un puntero que apunta  a un nodo
 //tendremos que insertar el nuevo justo antes del nodo apuntado
+    //En cualquier otro caso, inserccion intermedia
 template <class T>
-void ListaDEnlazada<T>::insertar(const Iterador &i, T &dato) { //le pasamos el iteador que indica la posicion donde queremos insertar
+void ListaDEnlazada<T>::insertar(const Iterador &p, const T &dato) {
+    if (cabecera==0 || p.nodo==cabecera) {
+        insertarInicio(dato);
+    } else if (p.nodo==nullptr) {
+        insertarFinal(dato);
+    } else {
+        Nodo<T> *ant = p.nodo->ant;
+        Nodo<T> *q = p.nodo;
 
-        //en caso de que la lista este vacia, insertamos directamente el nuevo dato
-        //en caso de que el nodo apunte a la cabecera
-        if (cabecera==0 || i.nodo==cabecera) {
-            insertarInicio(dato);
-        }else if (i.nodo==nullptr){
-            insertarFinal(dato);
-        }
-        else{
-        //En cualquier otro caso, inserccion intermedia
-            Nodo<T> *p = i.nodo->ant; // Nodo anterior
-            Nodo<T> *q = i.nodo;      // Nodo actual sobre el que está el iterador
+        Nodo<T> *nuevo = new Nodo<T>(dato, ant, q);
+        ant->sig = nuevo;
+        q->ant = nuevo;
 
-            Nodo<T> *nuevo = new Nodo<T>(dato, p, q); //el nuevo nodo ya nace con las direcciones correctas
-            p->sig = nuevo; //ajustamos el anterior al nuevo nodo, para que apunte a ek
-            q->ant = nuevo; //lo mismo para el siguiente del nuevo nodo
-
-            tamanio++;
-        }
+        tamanio++;
+    }
 }
 
 
@@ -214,7 +211,7 @@ void ListaDEnlazada<T>::insertar(const Iterador &i, T &dato) { //le pasamos el i
 //reaustemos la cabecera
 //excepcion para la lista vacia
 template<class T>
-void ListaD<T>::borrarInicio(){
+void ListaDEnlazada<T>::borrarInicio(){
     //en caso de que la lista este vacia
     if (cabecera==0) {
         throw std::out_of_range("Error, lista vacia");
@@ -236,7 +233,7 @@ void ListaD<T>::borrarInicio(){
 
 //La misma logica, hay que reajustar ahora la cola
 template<class T>
-void ListaD<T>::borrarFinal(){
+void ListaDEnlazada<T>::borrarFinal(){
     if (cabecera == 0) {
         throw std::out_of_range("Error, lista vacia");
     }
@@ -257,11 +254,11 @@ void ListaD<T>::borrarFinal(){
 
 //ahora tenemos un iterador apuntando a un elemento que vamos a borrar
 template<class T>
-void ListaD<T>::borrar(Iterador &p) {
+void ListaDEnlazada<T>::borrar(Iterador &p) {
     // Si el iterador es nulo o la lista está vacía, no hacemos nada
     if (p.nodo == 0 || cabecera == 0) {
         throw std::out_of_range("Error");
-
+    }
         // Guardamos el puntero al nodo que vamos a borrar
         Nodo<T> *aBorrar = p.nodo;
 
@@ -269,17 +266,12 @@ void ListaD<T>::borrar(Iterador &p) {
         // para que no quede apuntando a memoria destruida
         p.nodo = p.nodo->sig;
 
-        //Único elemento en la lista
-        if (cabecera == cola) {
-            cabecera = 0;
-            cola = 0;
-        }
 
         if (aBorrar == cabecera) {
-            borraInicio();
+            borrarInicio();
         }
         else if (aBorrar == cola) {
-            borraFinal();  // Ya gestiona cola, cabecera (si sólo había 1), delete y tama--
+            borrarFinal();  // Ya gestiona cola, cabecera (si sólo había 1), delete y tama--
         }
         else{
             // Caso intermedio
@@ -287,28 +279,28 @@ void ListaD<T>::borrar(Iterador &p) {
             aBorrar->sig->ant = aBorrar->ant;
 
             delete aBorrar;
-            tama--;
+            tamanio--;
         }
-    }
 }
+
 template<class T>
-unsigned ListaD<T>::tam() {
-    return tama;
+unsigned ListaDEnlazada<T>::tam() {
+    return tamanio;
 };
 
 template <class T>
-ListaD<T> ListaD<T>::concatena(const ListaD<T> &l) const {
-    ListaD<T> resultado; // Lista nueva donde guardamos la union
+ListaDEnlazada<T> ListaDEnlazada<T>::concatena(const ListaDEnlazada<T> &l) const {
+    ListaDEnlazada<T> resultado; // Lista nueva donde guardamos la union
 
     // Recorremos la lista actual *this usando un contador i
-    typename ListaD<T>::Iterador it1 = this->iterador();
+    typename ListaDEnlazada<T>::Iterador it1 = this->iterador();
     for (unsigned int i = 0; i < tamanio; i++) {
         resultado.insertarFinal(it1.dato());
         it1.siguiente();
     }
 
     // Recorremos la lista pasada por parámetro l usando un contador i
-    typename ListaD<T>::Iterador it2 = l.iterador();
+    typename ListaDEnlazada<T>::Iterador it2 = l.iterador();
     for (unsigned int i = 0; i < l.tamanio; i++) {
         resultado.insertarFinal(it2.dato());
         it2.siguiente();
@@ -318,7 +310,7 @@ ListaD<T> ListaD<T>::concatena(const ListaD<T> &l) const {
 }
 
 template <class T>
-ListaD<T> ListaD<T>::operator+(const ListaD<T> &l) const {
+ListaDEnlazada<T> ListaDEnlazada<T>::operator+(const ListaDEnlazada<T> &l) const {
     return this->concatena(l); // Llama al método concatena directamente
 }
 //VAMOS APROVECHAR LA CREACION DEL MOTO BORRARINICIIO, para ir borrando nodos de las listas
@@ -326,7 +318,7 @@ template <class T>
 ListaDEnlazada<T>::~ListaDEnlazada() {
 //En caso de que la lista ya este vacía, cabecera sera 0, luego no entrará al bucle while
   while(cabecera!= nullptr){
-    borraInicio();  //Ademas, como el metodo ya se encarga tanto de mover cabecera, poner tamanio=0, cola=0....no hace falta que lo hagmamos nosotros
+    borrarInicio();  //Ademas, como el metodo ya se encarga tanto de mover cabecera, poner tamanio=0, cola=0....no hace falta que lo hagmamos nosotros
   }
 }
 

@@ -8,13 +8,14 @@
 #ifndef PR1_ESPECIE_H
 #define PR1_ESPECIE_H
 #include <string>
+#include "TipoPlanta.h"
 
 class Especie {
 private:
     std::string codigoEspecie;
     std::string nombreComun;
     std::string nombreCientifico;
-    std::string tipoPlanta;
+    TipoPlanta tipoPlanta;
 
 public:
     /**
@@ -27,7 +28,8 @@ public:
      * @param codigo    Codigo que identifica a la especie.
      * @param ncomun   Nombre comun de la especie.
      * @param ncientifico Nombre cientifico de la especie.
-     * @param tipo Tipo de Planta
+     * @param tipo Texto del tipo de planta tal como aparece en el CSV; se convierte a TipoPlanta.
+     * @throw std::invalid_argument Si tipo no coincide con ningun TipoPlanta conocido.
      */
     Especie(const std::string &codigo, const std::string &ncomun, const std::string &ncientifico, const std::string &tipo);
 
@@ -96,13 +98,18 @@ public:
     * @brief Devuelve el tipo de planta de un objeto Especie
     * @return Devuelve tipoPlanta.
     */
-    std::string getTP() const;
+    TipoPlanta getTP() const;
 
     /**
     * @brief Asigna un tipo de Planta a un objeto Especie
     * @param tp Nuevo tipoPlanta.
     */
-    void setTP(const std::string &tp);
+    void setTP(TipoPlanta tp);
+
+    /**
+    * @brief Muestra por pantalla los datos de la especie.
+    */
+    void mostrarInfo() const;
 
 };
 

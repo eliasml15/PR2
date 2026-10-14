@@ -234,20 +234,19 @@ void ListaDEnlazada<T>::borrarInicio(){
 //La misma logica, hay que reajustar ahora la cola
 template<class T>
 void ListaDEnlazada<T>::borrarFinal(){
-    if (cabecera == 0) {
+    if (cola == 0) {
         throw std::out_of_range("Error, lista vacia");
     }
     Nodo<T> *borra = cola;
-    //  Solo hay 1 nodo
-    if (cabecera == cola) {
+
+    if (cabecera == cola) {   // un solo elemento
         cabecera = nullptr;
         cola = nullptr;
+    } else {                   // mas de un elemento
+        cola = cola->ant;       // la cola retrocede al penultimo nodo
+        cola->sig = nullptr;    // el nuevo ultimo nodo ya no tiene nada detras
     }
-    //Hay más de 1 nodo
-    else {
-        cabecera = cabecera->sig; // Movemos la cabecera al segundo nodo
-        cabecera->ant = nullptr;  // El nuevo primer nodo ya no tiene nada detrás
-    }
+
     delete borra;
     tamanio--;
 }

@@ -144,20 +144,23 @@ int main() {
         int cont= control.contarEspecieParque("Abeto");
         cout << "No. Parques con especie Abeto: " << cont << endl;
 
-        //PAREJAS 1
-        cout << "ANTES " << control.contarEspecieParque("Abeto");
-        control.EliminaEspecieNbreComun("Abeto");
-        cout << "\nDESPUES " << control.contarEspecieParque("Abeto");
 
-        //PAREJAS 2
-        cout << "Intentando Borrar VIVERO DE MIGAS CALIENTES....";
+        //PRUEBA POR PAREJAS
+        cout << endl;
+        cout<<endl;
+        cout << "PRUEBA POR PAREJAS: "<<endl;
+        cout<<endl; 
+        cout << "Eliminando VIVERO DE MIGAS CALIENTES...."<<endl;
         control.eliminarParque( "VIVERO DE MIGAS CALIENTES");
-        if (Parque* p=control.buscarParque("VIVERO DE MIGAS CALIENTES")) {
-            cout << "\nVIVERO DE MIGAS CALIENTES existe con codigo: " << p->get_cod_parque() << endl;
-        }else
-            cout << "\nVIVERO DE MIGAS CALIENTES NO existe" << endl;
 
-        cout << endl << "FIN DE LA APLICACION....";
+        //Comprobamos que ya no existen: buscarParques devuelve un numero si existe y lo mete en p, sino lo encuentra mete nullptr
+        if (Parque* p=control.buscarParque("VIVERO DE MIGAS CALIENTES")) {
+            cout << "Error: VIVERO DE MIGAS CALIENTES sigue existiendo con codigo: " << p->getCParque() << endl;
+        }else
+            cout << "Correcto: VIVERO DE MIGAS CALIENTES ya no existe" << endl;
+
+        cout << endl;
+        cout<<endl;
 
     }catch (std::out_of_range &e){
         std::cerr << e.what() << std::endl;

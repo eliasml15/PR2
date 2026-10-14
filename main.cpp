@@ -140,16 +140,21 @@ int main() {
                 " TipoPlanta=" << tipoPlantaToString(listado[i]->gettipo_planta()) <<  endl;
         }
 
-        //aptdo 5
+        //PRUEBA 5:
+        cout << endl;
+        cout<<endl;
+        cout << "PRUEBA 5: "<<endl;
+        cout<<endl;
+        //Para esta prueba, utilizamos directamente el metodo implementado, lo almacenamos en un contador
         int cont= control.contarEspecieParque("Abeto");
-        cout << "No. Parques con especie Abeto: " << cont << endl;
-
+        cout << "Numero de parques que contienen a la especie cuyo nombre comun es Abeto: " << cont << endl;
+        
 
         //PRUEBA POR PAREJAS
         cout << endl;
         cout<<endl;
         cout << "PRUEBA POR PAREJAS: "<<endl;
-        cout<<endl; 
+        cout<<endl;
         cout << "Eliminando VIVERO DE MIGAS CALIENTES...."<<endl;
         control.eliminarParque( "VIVERO DE MIGAS CALIENTES");
 

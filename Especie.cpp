@@ -7,7 +7,7 @@
 
 #include "Especie.h"
 #include <iostream>
-inline TipoPlanta stringToTipoPlanta(const std::string &texto) {
+inline TipoPlanta convertiratipoplanta(const std::string &texto) {
     if (texto == "ARBUSTO") return ARBUSTO;
     if (texto == "CONIFERA") return CONIFERA;
     if (texto == "PALMACEA") return PALMACEA;
@@ -23,7 +23,7 @@ inline TipoPlanta stringToTipoPlanta(const std::string &texto) {
     throw std::invalid_argument("stringToTipoPlanta: tipo de planta desconocido: " + texto);
 }
 
-inline std::string tipoPlantaToString(TipoPlanta tipo) {
+inline std::string convertirastring(TipoPlanta tipo) {
     switch (tipo) { //aaqui podemos hacerlo cno swithc porque si soporta tipo entero, no como antes que eran string y por tanto tocaba con if/else
         case ARBUSTO: return "ARBUSTO";
         case CONIFERA: return "CONIFERA";

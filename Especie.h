@@ -22,8 +22,8 @@ enum TipoPlanta {
     HERB_ANUALES,
     NO // Tipo de planta vacio o desconocido en el CSV.
 };
-inline TipoPlanta stringToTipoPlanta(const std::string &texto) ;
-inline std::string tipoPlantaToString(TipoPlanta tipo) ;
+inline TipoPlanta convertiratipoplanta(const std::string &texto) ;
+inline std::string convertirastring (TipoPlanta tipo) ;
 
 class Especie {
 private:

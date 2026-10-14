@@ -3,6 +3,7 @@ using namespace std;
 #include "ControlParques.h"
 #include "Especie.h"
 #include "Parque.h"
+#include "LectorCSV.h"
 #include "ListaDEnlazada.h"
 #include "TipoPlanta.h"
 
@@ -15,70 +16,69 @@ void mostrar(ListaDEnlazada<int> &l) {
     }
 
 }
-
 int main() {
 
 
     cout << endl << "PRUEBA1: LISTA DOBLE:" << endl;
-    
-        //Creamos la lista de enteros vacia
-        ListaDEnlazada<int> lista;
 
-        //Insertamos valores de 101 a 200
-        for (int i = 101; i <= 200; i++)
-            lista.insertarFinal(i);
-        mostrar(lista);
+    //Creamos la lista de enteros vacia
+    ListaDEnlazada<int> lista;
 
-        //insertamos por el comienzo del 98 a 1
-        for (int i = 98; i >= 1; i--)
-            lista.insertarInicio(i);
-        mostrar(lista);
+    //Insertamos valores de 101 a 200
+    for (int i = 101; i <= 200; i++)
+        lista.insertarFinal(i);
+    mostrar(lista);
 
-        //insertamos el 100 delante de 101
-        ListaDEnlazada<int>::Iterador it = lista.iterador(); //it llegara hasta la posicion 101
-        while (it.dato() != 101) {
+    //insertamos por el comienzo del 98 a 1
+    for (int i = 98; i >= 1; i--)
+        lista.insertarInicio(i);
+    mostrar(lista);
+
+    //insertamos el 100 delante de 101
+    ListaDEnlazada<int>::Iterador it = lista.iterador(); //it llegara hasta la posicion 101
+    while (it.dato() != 101) {
+        it.siguiente();
+    }
+    //insertar inserta el dato 100 DELANTE de 101
+    lista.insertar(it, 100);
+    mostrar(lista);
+
+    //inserta el dato 99 detras del 98
+    ListaDEnlazada<int>::Iterador it2 = lista.iterador();
+    while (it2.dato() != 98) {
+        it2.siguiente();
+    }//termina el while y apunta al dato 98
+
+    it2.siguiente();//avanzamos una posicion para insertar DELANTE de 98+1
+    lista.insertar(it2, 99);//insertando el dato detras de 98
+    mostrar(lista);
+
+    //borramos los 10 primeros datos
+    for (int i = 0; i < 10; i++) {
+        lista.borrarInicio();
+    }
+    //borramos los 10 ultimos datos
+    for (int i = 0; i < 10; i++) {
+        lista.borrarFinal();
+    }
+    mostrar(lista);
+
+    //borramos los multiplos de 10
+    //creamos un iterador auxiliar que nos va a servir para el borrado
+    ListaDEnlazada<int>::Iterador itsig;
+    it = lista.iterador();
+    while (!it.fin()) {
+        if (it.dato() % 10 == 0) {
+            itsig = it;
+            itsig.siguiente();
+            lista.borrar(it);
+            it = itsig;
+        } else
             it.siguiente();
-        }
-        //insertar inserta el dato 100 DELANTE de 101
-        lista.insertar(it, 100);
-        mostrar(lista);
+    }
 
-        //inserta el dato 99 detras del 98
-        ListaDEnlazada<int>::Iterador it2 = lista.iterador();
-        while (it2.dato() != 98) {
-            it2.siguiente();
-        }//termina el while y apunta al dato 98
-
-        it2.siguiente();//avanzamos una posicion para insertar DELANTE de 98+1
-        lista.insertar(it2, 99);//insertando el dato detras de 98
-        mostrar(lista);
-
-        //borramos los 10 primeros datos
-        for (int i = 0; i < 10; i++) {
-            lista.borrarInicio();
-        }
-        //borramos los 10 ultimos datos
-        for (int i = 0; i < 10; i++) {
-            lista.borrarFinal();
-        }
-        mostrar(lista);
-
-        //borramos los multiplos de 10
-        //creamos un iterador auxiliar que nos va a servir para el borrado
-        ListaDEnlazada<int>::Iterador itsig;
-        it = lista.iterador();
-        while (!it.fin()) {
-            if (it.dato() % 10 == 0) {
-                itsig = it;
-                itsig.siguiente();
-                lista.borrar(it);
-                it = itsig;
-            } else
-                it.siguiente();
-        }
-
-        cout << " LISTA FINAL:" << endl;
-        mostrar(lista);
+    cout << " LISTA FINAL:" << endl;
+    mostrar(lista);
 
 
     //PRUEBA II::probar funcionalidad de ControlParques

@@ -8,29 +8,14 @@
 #ifndef PR1_ESPECIE_H
 #define PR1_ESPECIE_H
 #include <string>
-
-enum TipoPlanta {
-    ARBUSTO,  //ARBUSTO=0
-    CONIFERA, //CONIFERA=1....es un tipo de dato que no admite mas que esto, y ademas por debajo podemso decir que son numeros, luego en las comparaciones son mas rapides que los strings por ejemplo
-    PALMACEA,
-    HERB_PERENNES,
-    FRONDOSA,
-    TAPIZANTE_TREPADORA ,
-    CACTACEA_SUCULENTA,
-    SUBTROPICAL_TROPICAL,
-    HERB_ANUAL,
-    HERB_ANUALES,
-    NO // Tipo de planta vacio o desconocido en el CSV.
-};
-inline TipoPlanta convertiratipoplanta(const std::string &texto) ;
-inline std::string convertirastring (TipoPlanta tipo) ;
+#include "TipoPlanta.h"
 
 class Especie {
 private:
     std::string codigoEspecie;
     std::string nombreComun;
     std::string nombreCientifico;
-    TipoPlanta tipoPlanta;   //esto es muy importante. El enum
+    TipoPlanta tipoPlanta;
 
 public:
     /**

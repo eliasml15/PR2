@@ -8,6 +8,8 @@
 #include "Especie.h"
 #include <iostream>
 
+
+
 Especie::Especie(const std::string &codigo, const std::string &ncomun, const std::string &ncientifico, const std::string &tipo):
 codigoEspecie(codigo),nombreComun(ncomun),nombreCientifico(ncientifico),tipoPlanta(stringToTipoPlanta(tipo)) {
 }

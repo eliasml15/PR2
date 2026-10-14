@@ -60,7 +60,7 @@ public:
     void borrar(Iterador &p);  //borrar cualquier elemento que nos diga un iterador
 
     ListaDEnlazada<T> concatena(const ListaDEnlazada<T> &l) const;
-    ListaDEnlazada<T> operator+(const ListaDEnlazada<T> &l) const; //necesario para el concatena
+    ListaDEnlazada<T> operator+(const ListaDEnlazada<T> &l) ; //necesario para el concatena
 
     ~ListaDEnlazada(); //destructor
 };
@@ -310,9 +310,17 @@ ListaDEnlazada<T> ListaDEnlazada<T>::concatena(const ListaDEnlazada<T> &l) const
 }
 
 template <class T>
-ListaDEnlazada<T> ListaDEnlazada<T>::operator+(const ListaDEnlazada<T> &l) const {
-    return this->concatena(l); // Llama al método concatena directamente
+ListaDEnlazada<T> ListaDEnlazada<T>::operator+(const ListaDEnlazada<T> &l) {
+    typename ListaDEnlazada<T>::Iterador it1 = this->iterador();
+    // Recorremos la lista pasada por parámetro l usando un contador i
+    typename ListaDEnlazada<T>::Iterador it2 = l.iterador();
+    for (unsigned int i = 0; i < l.tamanio; i++) {
+        this->insertarFinal(it2.dato());
+        it2.siguiente();
+    }
+    return *this;
 }
+
 //VAMOS APROVECHAR LA CREACION DEL MOTO BORRARINICIIO, para ir borrando nodos de las listas
 template <class T>
 ListaDEnlazada<T>::~ListaDEnlazada() {

@@ -3,56 +3,69 @@ using namespace std;
 #include "ControlParques.h"
 #include "Especie.h"
 #include "Parque.h"
-#include "LectorCSV.h"
 #include "ListaDEnlazada.h"
 #include "TipoPlanta.h"
 
 
+void mostrar(ListaDEnlazada<int> &l) {
+    ListaDEnlazada<int>::Iterador it=l.iterador();
+    while (!it.fin()) {
+        cout<<it.dato()<<"  ";
+        it.siguiente();
+    }
+
+}
 
 int main() {
 
 
     cout << endl << "PRUEBA1: LISTA DOBLE:" << endl;
-    try{
-        //Probando lista de enteros
-        ListaD<int> lista;
+    
+        //Creamos la lista de enteros vacia
+        ListaDEnlazada<int> lista;
+
+        //Insertamos valores de 101 a 200
         for (int i = 101; i <= 200; i++)
             lista.insertarFinal(i);
+        mostrar(lista);
 
-        mostrarListaPrueba1(lista);
-
+        //insertamos por el comienzo del 98 a 1
         for (int i = 98; i >= 1; i--)
             lista.insertarInicio(i);
+        mostrar(lista);
 
-        mostrarListaPrueba1(lista);
-
-        ListaD<int>::Iterador it = lista.iterador();
+        //insertamos el 100 delante de 101
+        ListaDEnlazada<int>::Iterador it = lista.iterador(); //it llegara hasta la posicion 101
         while (it.dato() != 101) {
             it.siguiente();
         }
+        //insertar inserta el dato 100 DELANTE de 101
         lista.insertar(it, 100);
+        mostrar(lista);
 
-        mostrarListaPrueba1(lista);
-
-        ListaD<int>::Iterador it2 = lista.iterador();
+        //inserta el dato 99 detras del 98
+        ListaDEnlazada<int>::Iterador it2 = lista.iterador();
         while (it2.dato() != 98) {
             it2.siguiente();
-        }
-        it2.siguiente();
-        lista.insertar(it2, 99);
+        }//termina el while y apunta al dato 98
 
-        mostrarListaPrueba1(lista);
+        it2.siguiente();//avanzamos una posicion para insertar DELANTE de 98+1
+        lista.insertar(it2, 99);//insertando el dato detras de 98
+        mostrar(lista);
 
+        //borramos los 10 primeros datos
         for (int i = 0; i < 10; i++) {
             lista.borrarInicio();
         }
+        //borramos los 10 ultimos datos
         for (int i = 0; i < 10; i++) {
             lista.borrarFinal();
         }
+        mostrar(lista);
 
-        mostrarListaPrueba1(lista);
-
-        ListaD<int>::Iterador itsig;
+        //borramos los multiplos de 10
+        //creamos un iterador auxiliar que nos va a servir para el borrado
+        ListaDEnlazada<int>::Iterador itsig;
         it = lista.iterador();
         while (!it.fin()) {
             if (it.dato() % 10 == 0) {
@@ -65,11 +78,8 @@ int main() {
         }
 
         cout << " LISTA FINAL:" << endl;
-        mostrarListaPrueba1(lista);
+        mostrar(lista);
 
-    }catch (std::bad_alloc &e){
-        std::cerr << "No hay memoria suficiente." << std::endl;
-    }
 
     //PRUEBA II::probar funcionalidad de ControlParques
     try{

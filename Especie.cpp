@@ -7,6 +7,39 @@
 
 #include "Especie.h"
 #include <iostream>
+inline TipoPlanta stringToTipoPlanta(const std::string &texto) {
+    if (texto == "ARBUSTO") return ARBUSTO;
+    if (texto == "CONIFERA") return CONIFERA;
+    if (texto == "PALMACEA") return PALMACEA;
+    if (texto == "HERB_PERENNES") return HERB_PERENNES;
+    if (texto == "FRONDOSA") return FRONDOSA;
+    if (texto == "TAPIZANTE_TREPADORA") return TAPIZANTE_TREPADORA;
+    if (texto == "CACTACEA_SUCULENTA") return CACTACEA_SUCULENTA;
+    if (texto == "SUBTROPICAL_TROPICAL") return SUBTROPICAL_TROPICAL;
+    if (texto == "HERB_ANUAL") return HERB_ANUAL;
+    if (texto == "HERB_ANUALES") return HERB_ANUALES;
+    if (texto == "") return NO;
+
+    throw std::invalid_argument("stringToTipoPlanta: tipo de planta desconocido: " + texto);
+}
+
+inline std::string tipoPlantaToString(TipoPlanta tipo) {
+    switch (tipo) { //aaqui podemos hacerlo cno swithc porque si soporta tipo entero, no como antes que eran string y por tanto tocaba con if/else
+        case ARBUSTO: return "ARBUSTO";
+        case CONIFERA: return "CONIFERA";
+        case PALMACEA: return "PALMACEA";
+        case HERB_PERENNES: return "HERB_PERENNES";
+        case FRONDOSA: return "FRONDOSA";
+        case TAPIZANTE_TREPADORA: return "TAPIZANTE_TREPADORA";
+        case CACTACEA_SUCULENTA: return "CACTACEA_SUCULENTA";
+        case SUBTROPICAL_TROPICAL: return "SUBTROPICAL_TROPICAL";
+        case HERB_ANUAL: return "HERB_ANUAL";
+        case HERB_ANUALES: return "HERB_ANUALES";
+        case NO: return "";
+    }
+    return "DESCONOCIDO";
+}
+
 
 Especie::Especie(const std::string &codigo, const std::string &ncomun, const std::string &ncientifico, const std::string &tipo):
 codigoEspecie(codigo),nombreComun(ncomun),nombreCientifico(ncientifico),tipoPlanta(stringToTipoPlanta(tipo)) {

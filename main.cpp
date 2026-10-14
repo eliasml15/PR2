@@ -88,7 +88,11 @@ int main() {
         ControlParques control("../arbolado-especies.csv","../parques.csv");
         //en el controlparques, nos aseguramos de que lo metemos en el vector dinamico y ademas lo ordenamos de menor a mayor por su codigo
 
-        //Prueba 1: declaramos un puntero de tipo parque, que almacenara el resultado de la busqueda
+        //PRUEBA 1
+        cout << endl;
+        cout<<endl;
+        cout << "PRUEBA 1: "<<endl;
+        cout<<endl;
         if (Parque* p=control.buscarParque("PARQUE PRINCESA LEONOR")) {
             if (p->existeNbreCom("Eucalipto rojo")) {   //p apunta al parque que hemos encontrado
                 cout << "El parque: PARQUE PRINCESA LEONOR contiene Eucalipto rojo" << endl;
@@ -104,40 +108,52 @@ int main() {
             }
         }
 
-        //Prueba 2:
+        //PRUEBA 2
+        cout << endl;
+        cout<<endl;
+        cout << "PRUEBA 2: "<<endl;
+        cout<<endl;
         if (Parque* p=control.buscarParque("PARQUE MADRID RIO")) {
-            if (p && p->existeNbreCie("Hebe floribunda")) {
+            if (p->existeNbreCie("Hebe floribunda")) {
                 cout << "El parque: PARQUE MADRID RIO contiene Hebe floribunda" << endl;
             }else {
                 cout << "El parque: PARQUE MADRID RIO NO contiene Hebe floribunda" << endl;
             }
         }
         if (Parque* p=control.buscarParque("PARQUE MADRID RIO")) {
-            if (p && p->existeNbreCie("Ananas comosus")) {
+            if (p->existeNbreCie("Ananas comosus")) {
                 cout << "El parque: PARQUE MADRID RIO contiene Ananas comosus" << endl;
             }else {
                 cout << "El parque: PARQUE MADRID RIO NO contiene Ananas comosus" << endl;
             }
         }
 
-        //aptdo 3
+        //PRUEBA 3
+        cout << endl;
+        cout<<endl;
+        cout << "PRUEBA 3: "<<endl;
+        cout<<endl;
         if (Parque* p=control.buscarParque("PARQUE JUAN CARLOS III")) {
-            cout << "PARQUE JUAN CARLOS III existe con codigo: " << p->get_cod_parque() << endl;
+            cout << "PARQUE JUAN CARLOS III existe con codigo: " << p->getCParque() << endl;
         }else
             cout << "PARQUE JUAN CARLOS III NO existe" << endl;
 
         if (Parque* p=control.buscarParque("VIVERO DE MIGAS CALIENTES")) {
-            cout << "VIVERO DE MIGAS CALIENTES existe con codigo: " << p->get_cod_parque() << endl;
+            cout << "VIVERO DE MIGAS CALIENTES existe con codigo: " << p->getCParque() << endl;
         }else
             cout << "VIVERO DE MIGAS CALIENTES NO existe" << endl;
 
-        //aptdo 4
-        VDinamico<Especie*> listado=control.listadoEspeciesSubNbre("rosa");
-        for (int i=0; i<listado.tama(); i++) {
-            cout << i << " Codigo= " << listado[i]->getcodigoEspecie() <<
-                " NombreCient.=" << listado[i]->getnombre_cientifico() <<
-                " NombreComun=" << listado[i]->getnombre_comun() <<
-                " TipoPlanta=" << tipoPlantaToString(listado[i]->gettipo_planta()) <<  endl;
+        //PRUEBA 4
+        cout << endl;
+        cout<<endl;
+        cout << "PRUEBA 4: "<<endl;
+        cout<<endl;
+        VDinamico<Especie*> listado=control.listadoEspecieSubNbre("rosa");
+        for (int i=0; i<listado.tamlog(); i++) {
+            cout << i << " Codigo= " << listado[i]->getCod() <<
+                " NombreCient.=" << listado[i]->getNCi() <<
+                " NombreComun=" << listado[i]->getNCom() <<
+                " TipoPlanta=" << tipoPlantaToString(listado[i]->getTP()) <<  endl;
         }
 
         //PRUEBA 5:
@@ -148,7 +164,7 @@ int main() {
         //Para esta prueba, utilizamos directamente el metodo implementado, lo almacenamos en un contador
         int cont= control.contarEspecieParque("Abeto");
         cout << "Numero de parques que contienen a la especie cuyo nombre comun es Abeto: " << cont << endl;
-        
+
 
         //PRUEBA POR PAREJAS
         cout << endl;

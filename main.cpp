@@ -11,13 +11,11 @@ using namespace std;
 
 void mostrar(ListaDEnlazada<int> &l) {
     ListaDEnlazada<int>::Iterador it=l.iterador();
-
     while (!it.fin()) {
         cout<<it.dato()<<"  ";
         it.siguiente();
     }
-    cout<<endl;
-    cout<<endl;
+
 }
 int main() {
 

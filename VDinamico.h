@@ -1,6 +1,6 @@
 /**
  * @file VDinamico.h
- * @brief Declaracion e implementacion de la clase plantilla VDinamico (vector dinamico).
+ * @brief Declaracion e implementacion de la clase plantilla VDinamico.
  * @author Carlos y Elias
  * @date 18/09/2026
  */
@@ -27,7 +27,7 @@ public:
 
     /**
      * @brief Constructor parametrizado.
-     * @param tamlog Tamanio logico inicial. El fisico sera la potencia de 2  igual o inmediatamente superior.
+     * @param n Tamanio logico inicial. El fisico sera la potencia de 2  igual o inmediatamente superior.
      * @param dato   Valor con el que se rellenan los tamlog elementos.
      */
     VDinamico(unsigned int n, T &dato);
@@ -110,7 +110,7 @@ public:
 
 
 
-
+//IMPLEMENTACION
 
 template<typename T>
 VDinamico<T>::VDinamico():tamfisico(1),tamlogico(0) {
@@ -119,7 +119,7 @@ VDinamico<T>::VDinamico():tamfisico(1),tamlogico(0) {
 }
 
 
-template<typename T> ///< n es el tamlogico del vector
+template<typename T> // n es el tamlogico del vector
 VDinamico<T>::VDinamico(const unsigned int n, T &dato) {
     tamfisico=1;
     tamlogico=n;

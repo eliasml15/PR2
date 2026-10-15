@@ -23,7 +23,6 @@ public:
     VDinamico<Especie*> listadoEspecieSubNbre(const std::string &ncie);
     Parque* buscarParque(const std::string &nParque);
 
-    // Para parejas
     void eliminarParque(const std::string &nombre);
 };
 

@@ -1,4 +1,6 @@
-//final
+/** @author Carlos Granados de la Torre cgt00032@red.ujaen.es
+    @author Elias Martos Linde eml00069@red.ujaen.es
+*/
 #include <iostream>
 using namespace std;
 #include "ControlParques.h"
